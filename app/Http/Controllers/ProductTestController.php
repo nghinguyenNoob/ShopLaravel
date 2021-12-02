@@ -22,8 +22,7 @@ class ProductTestController extends Controller
     {
 
         $perPage = 2;
-        $productCategory = array();
-
+        $productCategory = Category_model::select('id', 'name')->get()->toArray();
         $request->flash();
 
         $productList = Products_model::select(
@@ -36,28 +35,48 @@ class ProductTestController extends Controller
             'image'
         );
 
-        if (!empty($request->product_id)) {
-            $productList = $productList->whereId($request->product_id);
-        }
-        if (!empty($request->product_code)) {
-            $productList = $productList->where("p_code", $request->product_code);
-        }
-        if (!empty($request->product_name)) {
-            $productList = $productList->where("p_name", 'LIKE', '%' . $request->product_name . '%');
-        }
-        if (!empty($request->product_category)) {
-            $productList = $productList->where("categories_id", $request->product_category);
-        }
         $productList = $productList->paginate($request->perPage ? $request->perPage : $perPage);
+        return view('StudyPHP/productlist', ['productList' => $productList, 'productCategory' => $productCategory, 'perPage' => $perPage]);
+    }
 
-        $productCategory = Category_model::select('id', 'name')->get()->toArray();
-
+    /**
+     * Search Product
+     */
+    public function searchProduct(Request $request)
+    {
         if ($request->ajax()) {
+            $perPage = 2;
+            $productCategory = Category_model::select('id', 'name')->get()->toArray();
+
+            $request->flash();
+
+            $productList = Products_model::select(
+                'id',
+                'p_name',
+                'p_code',
+                'p_color',
+                'description',
+                'price',
+                'image'
+            );
+
+            if (!empty($request->product_id)) {
+                $productList = $productList->whereId($request->product_id);
+            }
+            if (!empty($request->product_code)) {
+                $productList = $productList->where("p_code", $request->product_code);
+            }
+            if (!empty($request->product_name)) {
+                $productList = $productList->where("p_name", 'LIKE', '%' . $request->product_name . '%');
+            }
+            if (!empty($request->product_category)) {
+                $productList = $productList->where("categories_id", $request->product_category);
+            }
+            $productList = $productList->paginate($request->perPage ? $request->perPage : $perPage);
             $data = view('StudyPHP/producttable', compact('productList', 'productCategory', 'perPage'))->render();
             return Response::json(['data' => $data]);
         }
-
-        return view('StudyPHP/productlist', ['productList' => $productList, 'productCategory' => $productCategory, 'perPage' => $perPage]);
+        return $request;
     }
 
     /**
@@ -67,9 +86,7 @@ class ProductTestController extends Controller
     {
         $productCategory = array();
         $request->flash();
-        array_push($productCategory, ['id' => 1, 'category_name' => 'Laptop']);
-        array_push($productCategory, ['id' => 2, 'category_name' => 'Phone']);
-        array_push($productCategory, ['id' => 3, 'category_name' => 'Tablet']);
+        $productCategory = Category_model::select('id', 'name')->get()->toArray();
 
         return view('StudyPHP/productcreate', ['productCategory' => $productCategory]);
     }

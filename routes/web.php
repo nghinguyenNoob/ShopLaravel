@@ -64,6 +64,7 @@ Route::group(['middleware'=>'FrontLogin_middleware'],function (){
 });
 
 Route::get('/products-list', 'ProductTestController@productList');
+Route::post('/products-list', 'ProductTestController@searchProduct');
 Route::get('/products-new', 'ProductTestController@productCreateForm');
 Route::post('/products-save', 'ProductTestController@productSave');
 

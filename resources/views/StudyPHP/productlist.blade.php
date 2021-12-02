@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Product List Page</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js " type="text/javascript"></script>
-    <!-- <link href="{{asset('frontEnd/css/font-awesome.min.css')}}" rel="stylesheet"> -->
-    <!-- <link href="{{asset('frontEnd/css/bootstrap.min.css')}}" rel="stylesheet"> -->
     <!-- Css custome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <link href="{{asset('css/product.css')}}" rel="stylesheet" type="text/css">
@@ -33,34 +32,9 @@
         </ul>
     </div>
     <div class="menu-right">
-        <div class="content">
+        <div class="content-1">
             @include('StudyPHP.producttable')
         </div>
     </div>
 </body>
-<script>
-    document.getElementById('pagination').onchange = function() {
-        $perPage = this.value;
-        window.location = '{!! $productList->url(1)!!}&perPage=' + this.value;
-    };
-
-    // Drop
-    $(function() {
-        $('#drop-btn').click(function() {
-            $('#drop-btn .drop-list').toggle('slide');
-        });
-    });
-
-    $(document).ready(function() {
-        if (window.location == 'products-list' || window.location == 'products-new') {
-            $("#drop-btn").click();
-        }
-    });
-
-    $('#search').click(function() {
-        
-    });
-
-</script>
-
 </html>

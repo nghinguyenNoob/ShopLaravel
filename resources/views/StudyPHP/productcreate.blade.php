@@ -97,7 +97,7 @@
                             <select name="product_category">
                                 <option value="">--Select Category--</option>
                                 @foreach($productCategory as $category)
-                                <option value="{{$category['id']}}" @if($category['id']==old('product_category')) selected @endif>{{$category['category_name']}}</option>
+                                <option value="{{$category['id']}}" @if($category['id']==old('product_category')) selected @endif>{{$category['name']}}</option>
                                 @endforeach
                             </select>
                             @endif
