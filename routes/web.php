@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,6 +62,10 @@ Route::group(['middleware'=>'FrontLogin_middleware'],function (){
 
     
 });
+
+Route::get('/products-list', 'ProductTestController@productList');
+Route::get('/products-new', 'ProductTestController@productCreateForm');
+Route::post('/products-save', 'ProductTestController@productSave');
 
 Auth::routes(['register'=>false]);
 Route::get('/home', 'HomeController@index')->name('home');
